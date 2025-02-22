@@ -1,6 +1,6 @@
 import ProjectDescription
 
-public struct SPMDependency {
+public struct SPMDependency: Sendable {
     let url: String
     let name: String
     let requirement: Package.Requirement
@@ -15,14 +15,11 @@ public struct SPMDependency {
 }
 
 public extension SPMDependency {
-    /*
-     You can list all your SPM dependencies hear as static properties
 
-     static let kingfisher = SPMDependency(
-         url: "https://github.com/onevcat/Kingfisher",
-         name: "Kingfisher",
-         requirement: .exact("7.11.0")
-     )
+    static let ollama = SPMDependency(
+        url: "https://github.com/mattt/ollama-swift.git",
+        name: "Ollama",
+        requirement: .exact("1.2.0")
+    )
 
-     */
 }

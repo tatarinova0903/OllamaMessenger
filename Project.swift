@@ -10,5 +10,5 @@ import ProjectDescriptionHelpers
 let project = Project.app(
     name: "OllamaMessenger",
     organizationName: "d.tatarinova",
-    spmDependencies: []
+    spmDependencies: [.ollama]
 )
