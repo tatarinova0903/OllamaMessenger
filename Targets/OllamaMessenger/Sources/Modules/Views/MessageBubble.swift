@@ -15,9 +15,15 @@ struct MessageBubble: View {
                 .foregroundStyle(model.owner.authorColor)
                 .fontWeight(.bold)
 
-            Text(model.content)
-                .textSelection(.enabled)
-                .foregroundStyle(model.owner.textColor)
+            switch model.content {
+            case .ready(let text):
+                Text(text)
+                    .textSelection(.enabled)
+                    .foregroundStyle(model.owner.textColor)
+
+            case .loading:
+                TypingActivity()
+            }
         }
         .padding(.horizontal, 12.0)
         .padding(.vertical, 10.0)

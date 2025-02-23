@@ -17,20 +17,21 @@ final class MessengerViewModel: ObservableObject {
         state.addMessage(
             msg: MessengerViewState.Message(
                 owner: .user,
-                content: userMessage,
-                error: nil
+                content: .ready(userMessage)
             )
         )
+        state.addLoading(owner: .ai)
         do {
             let aiMessage = try await ollamaService.getAiAnswer(msg: userMessage)
+            state.dropLastLoading()
             state.addMessage(
                 msg: MessengerViewState.Message(
                     owner: .ai,
-                    content: aiMessage,
-                    error: nil
+                    content: .ready(aiMessage)
                 )
             )
         } catch {
+            state.dropLastLoading()
             state.setErrorToLastMessage()
         }
     }
@@ -46,10 +47,14 @@ enum MessengerViewState {
             case user, ai
         }
 
+        enum Content {
+            case ready(String)
+            case loading
+        }
+
         let id = UUID()
         let owner: Owner
-        let content: String
-        private(set) var error: AiError?
+        let content: Content
     }
 
     case chat([Message])
@@ -60,8 +65,34 @@ enum MessengerViewState {
         case .chat(var messages):
             messages.append(msg)
             self = .chat(messages)
+
         case .empty:
             self = .chat([msg])
+        }
+    }
+
+    mutating func addLoading(owner: Message.Owner) {
+        switch self {
+        case .chat(var messages):
+            messages.append(Message(owner: owner, content: .loading))
+            self = .chat(messages)
+
+        case .empty:
+            self = .chat([Message(owner: owner, content: .loading)])
+        }
+    }
+
+    mutating func dropLastLoading() {
+        switch self {
+        case .chat(var messages):
+            if let last = messages.last,
+               case .loading = last.content {
+                messages = messages.dropLast()
+            }
+            self = .chat(messages)
+
+        case .empty:
+            return
         }
     }
 
