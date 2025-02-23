@@ -11,10 +11,12 @@ struct MessageBubble: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(model.owner.string)
+                .textSelection(.enabled)
                 .foregroundStyle(model.owner.authorColor)
                 .fontWeight(.bold)
 
             Text(model.content)
+                .textSelection(.enabled)
                 .foregroundStyle(model.owner.textColor)
         }
         .padding()
