@@ -12,13 +12,20 @@ struct MessengerView: View {
     }
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 0) {
             List(viewModel.state.messages) { message in
                 messageElement(message: message)
                     .listRowSeparator(.hidden)
             }
-
-            Spacer()
+            .scrollContentBackground(.hidden)
+            .background(
+                .radialGradient(
+                    colors: [OllamaColors.accent.opacity(0.5), OllamaColors.dark],
+                    center: .top,
+                    startRadius: 0,
+                    endRadius: 250
+                )
+            )
 
             inputField()
         }
