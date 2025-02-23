@@ -68,6 +68,6 @@ struct MessengerViewState {
     }
 
     mutating func setErrorToLastMessage() {
-
+        // TODO: - error handling
     }
 }
