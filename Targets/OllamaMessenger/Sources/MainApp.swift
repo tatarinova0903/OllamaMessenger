@@ -4,7 +4,11 @@ import SwiftUI
 struct OllamaMessengerApp: App {
     var body: some Scene {
         WindowGroup {
-            MessengerView(viewModel: MessengerViewModel())
+            MessengerView(
+                viewModel: MessengerViewModel(
+                    ollamaService: OllamaService()
+                )
+            )
         }
     }
 }
