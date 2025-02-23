@@ -14,12 +14,28 @@ struct MessengerView: View {
     var body: some View {
         VStack(spacing: 10) {
             List(viewModel.state.messages) { message in
-                MessageBubble(model: message)
+                messageElement(message: message)
             }
 
             Spacer()
 
             inputField()
+        }
+    }
+
+    @ViewBuilder
+    private func messageElement(message: MessengerViewState.Message) -> some View {
+        switch message.owner {
+        case .user:
+            HStack {
+                Spacer()
+                MessageBubble(model: message)
+            }
+        case .ai:
+            HStack {
+                MessageBubble(model: message)
+                Spacer()
+            }
         }
     }
 
