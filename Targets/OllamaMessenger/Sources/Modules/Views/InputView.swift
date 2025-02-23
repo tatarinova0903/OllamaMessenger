@@ -12,7 +12,7 @@ struct InputView: View {
 
     var body: some View {
         HStack(spacing: 0.0) {
-            TextField("Your message", text: $input)
+            TextField("Start typing...", text: $input)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .onSubmit {
                     submitInput()
@@ -21,8 +21,9 @@ struct InputView: View {
             Image(systemName: "paperplane.circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
+                .foregroundStyle(OllamaColors.accent)
                 .padding(.all, 5)
-                .frame(width: 30.0, height: 30.0)
+                .frame(width: 33.0, height: 33.0)
                 .onTapGesture {
                     submitInput()
                 }

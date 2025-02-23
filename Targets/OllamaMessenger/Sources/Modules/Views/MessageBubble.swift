@@ -9,7 +9,7 @@ struct MessageBubble: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 4.0) {
             Text(model.owner.name)
                 .textSelection(.enabled)
                 .foregroundStyle(model.owner.authorColor)
@@ -19,7 +19,8 @@ struct MessageBubble: View {
                 .textSelection(.enabled)
                 .foregroundStyle(model.owner.textColor)
         }
-        .padding()
+        .padding(.horizontal, 12.0)
+        .padding(.vertical, 10.0)
         .background(model.owner.bubbleColor)
         .clipShape(RoundedRectangle(cornerRadius: 16.0))
     }
