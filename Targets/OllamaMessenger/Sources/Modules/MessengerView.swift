@@ -17,8 +17,7 @@ struct MessengerView: View {
                 .background(LinearGradient.main)
 
             InputView(input: userMessage, didEnter: viewModel.getAiAnswer(userMessage:))
-                .padding(.horizontal, 6.0)
-                .padding(.bottom, 6.0)
+                .padding(.all, 6.0)
                 .background(OllamaColors.dark)
         }
     }
@@ -51,6 +50,7 @@ struct MessengerView: View {
                 Spacer()
                 MessageBubble(model: message)
             }
+
         case .ai:
             HStack {
                 MessageBubble(model: message)

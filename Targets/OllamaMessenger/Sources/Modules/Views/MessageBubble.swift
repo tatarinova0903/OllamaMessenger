@@ -10,7 +10,7 @@ struct MessageBubble: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(model.owner.string)
+            Text(model.owner.name)
                 .textSelection(.enabled)
                 .foregroundStyle(model.owner.authorColor)
                 .fontWeight(.bold)
@@ -47,5 +47,14 @@ extension MessengerViewState.Message.Owner {
 
     fileprivate var textColor: Color {
         OllamaColors.light
+    }
+
+    fileprivate var name: String{
+        switch self {
+        case .user:
+            "You"
+        case .ai:
+            "Baby Yoda"
+        }
     }
 }
