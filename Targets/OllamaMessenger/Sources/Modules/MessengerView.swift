@@ -15,6 +15,7 @@ struct MessengerView: View {
         VStack(spacing: 10) {
             List(viewModel.state.messages) { message in
                 messageElement(message: message)
+                    .listRowSeparator(.hidden)
             }
 
             Spacer()
