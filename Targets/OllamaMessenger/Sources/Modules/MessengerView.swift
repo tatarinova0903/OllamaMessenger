@@ -29,7 +29,7 @@ struct MessengerView: View {
                 )
             )
 
-            inputField()
+            InputView(input: userMessage, didEnter: viewModel.getAiAnswer(userMessage:))
         }
     }
 
@@ -46,25 +46,6 @@ struct MessengerView: View {
                 MessageBubble(model: message)
                 Spacer()
             }
-        }
-    }
-
-    @ViewBuilder
-    private func inputField() -> some View {
-        VStack {
-            TextField("Your message", text: $userMessage)
-            Button(
-                action: {
-                    let question = userMessage
-                    userMessage = ""
-                    Task {
-                        await viewModel.getAiAnswer(userMessage: question)
-                    }
-                },
-                label: {
-                    Text("Get answer")
-                }
-            )
         }
     }
 
