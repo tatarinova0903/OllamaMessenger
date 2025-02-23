@@ -13,27 +13,46 @@ struct MessengerView: View {
 
     var body: some View {
         VStack(spacing: 0.0) {
-            List(viewModel.state.messages) { message in
-                messageElement(message: message)
-                    .listRowSeparator(.hidden)
+            if viewModel.state.messages.isEmpty {
+                empty()
+            } else {
+                chat(messages: viewModel.state.messages)
             }
-            .scrollContentBackground(.hidden)
-            .background(
-                .linearGradient(
-                    stops: [
-                        Gradient.Stop(color: OllamaColors.accentLight, location: 0.0),
-                        Gradient.Stop(color: OllamaColors.dark, location: 0.3)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            )
 
             InputView(input: userMessage, didEnter: viewModel.getAiAnswer(userMessage:))
                 .padding(.horizontal, 6.0)
                 .padding(.bottom, 6.0)
                 .background(OllamaColors.dark)
         }
+    }
+
+    @ViewBuilder
+    private func empty() -> some View {
+        VStack(spacing: 8.0) {
+            Spacer()
+
+            Image(.yoda)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxHeight: 200)
+
+            Text("Wanna chat with Baby Yoda?")
+                .font(.title)
+                .frame(maxWidth: .infinity)
+
+            Spacer()
+        }
+        .background(LinearGradient.main)
+    }
+
+    @ViewBuilder
+    private func chat(messages: [MessengerViewState.Message]) -> some View {
+        List(messages) { message in
+            messageElement(message: message)
+                .listRowSeparator(.hidden)
+        }
+        .scrollContentBackground(.hidden)
+        .background(LinearGradient.main)
     }
 
     @ViewBuilder
