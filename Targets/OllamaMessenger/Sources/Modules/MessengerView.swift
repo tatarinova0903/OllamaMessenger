@@ -12,7 +12,7 @@ struct MessengerView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 0.0) {
             List(viewModel.state.messages) { message in
                 messageElement(message: message)
                     .listRowSeparator(.hidden)
@@ -30,6 +30,9 @@ struct MessengerView: View {
             )
 
             InputView(input: userMessage, didEnter: viewModel.getAiAnswer(userMessage:))
+                .padding(.horizontal, 6.0)
+                .padding(.bottom, 6.0)
+                .background(OllamaColors.dark)
         }
     }
 

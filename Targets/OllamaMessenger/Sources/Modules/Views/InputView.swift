@@ -11,21 +11,30 @@ struct InputView: View {
     }
 
     var body: some View {
-        VStack {
+        HStack(spacing: 0.0) {
             TextField("Your message", text: $input)
-            Button(
-                action: {
-                    let question = input
-                    input = ""
-                    Task {
-                        await didEnter(question)
-                    }
-                },
-                label: {
-                    Text("Get answer")
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .onSubmit {
+                    submitInput()
                 }
-            )
+
+            Image(systemName: "paperplane.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .padding(.all, 5)
+                .frame(width: 30.0, height: 30.0)
+                .onTapGesture {
+                    submitInput()
+                }
         }
     }
-    
+
+    private func submitInput() {
+        let question = input
+        input = ""
+        Task {
+            await didEnter(question)
+        }
+    }
+
 }
