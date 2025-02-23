@@ -19,11 +19,13 @@ struct MessengerView: View {
             }
             .scrollContentBackground(.hidden)
             .background(
-                .radialGradient(
-                    colors: [OllamaColors.accent.opacity(0.5), OllamaColors.dark],
-                    center: .top,
-                    startRadius: 0,
-                    endRadius: 250
+                .linearGradient(
+                    stops: [
+                        Gradient.Stop(color: OllamaColors.accentLight, location: 0.0),
+                        Gradient.Stop(color: OllamaColors.dark, location: 0.3)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
                 )
             )
 

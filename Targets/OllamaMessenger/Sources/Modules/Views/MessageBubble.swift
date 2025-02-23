@@ -30,7 +30,7 @@ extension MessengerViewState.Message.Owner {
         case .user:
             OllamaColors.accent
         case .ai:
-            OllamaColors.dark
+            OllamaColors.accentSuperLight
         }
     }
 
