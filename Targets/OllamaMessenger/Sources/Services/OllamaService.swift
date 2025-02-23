@@ -7,7 +7,7 @@ final class OllamaService {
     private let client = Client.default
     private var context = [Chat.Message]()
 
-    func sendMessage(msg: String) async throws -> String {
+    func getAiAnswer(msg: String) async throws -> String {
         context.append(.user(msg))
         let response = try await client.chat(
             model: Self.llama3_2,

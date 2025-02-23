@@ -12,29 +12,33 @@ struct MessengerView: View {
     }
 
     var body: some View {
-        switch viewModel.state {
-        case .error(let model):
-            error(model: model)
-        case .content(let model):
-            content(model: model)
+        VStack(spacing: 10) {
+            List(viewModel.state.messages) { message in
+                Text(message.content)
+            }
+
+            Spacer()
+
+            inputField()
         }
     }
 
     @ViewBuilder
-    private func content(model: String) -> some View {
+    private func inputField() -> some View {
         VStack {
             TextField("Your message", text: $userMessage)
             Button(
                 action: {
+                    let question = userMessage
+                    userMessage = ""
                     Task {
-                        await viewModel.getModelAnswer(userMessage: userMessage)
+                        await viewModel.getAiAnswer(userMessage: question)
                     }
                 },
                 label: {
                     Text("Get answer")
                 }
             )
-            Text(model)
         }
     }
 

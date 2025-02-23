@@ -3,8 +3,9 @@ import Ollama
 
 @MainActor
 final class MessengerViewModel: ObservableObject {
+
     @Published
-    var state = MessengerViewState.content("")
+    var state = MessengerViewState(messages: [])
 
     private let ollamaService: OllamaService
 
@@ -12,17 +13,52 @@ final class MessengerViewModel: ObservableObject {
         self.ollamaService = ollamaService
     }
 
-    func getModelAnswer(userMessage: String) async {
+    func getAiAnswer(userMessage: String) async {
+        state.addMessage(
+            msg: MessengerViewState.Message(
+                owner: .user,
+                content: userMessage,
+                error: nil
+            )
+        )
         do {
-            let aiResponse = try await ollamaService.sendMessage(msg: userMessage)
-            state = .content(aiResponse)
+            let aiMessage = try await ollamaService.getAiAnswer(msg: userMessage)
+            state.addMessage(
+                msg: MessengerViewState.Message(
+                    owner: .ai,
+                    content: aiMessage,
+                    error: nil
+                )
+            )
         } catch {
-            state = .error("Error: \(error)")
+            state.setErrorToLastMessage()
         }
     }
+
 }
 
-enum MessengerViewState {
-    case content(String)
-    case error(String)
+struct MessengerViewState {
+    typealias AiError = String
+
+    struct Message: Identifiable {
+
+        enum Owner {
+            case user, ai
+        }
+
+        let id = UUID()
+        let owner: Owner
+        let content: String
+        private(set) var error: AiError?
+    }
+
+    private(set) var messages: [Message]
+
+    mutating func addMessage(msg: Message) {
+        messages.append(msg)
+    }
+
+    mutating func setErrorToLastMessage() {
+
+    }
 }
