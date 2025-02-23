@@ -14,7 +14,7 @@ struct MessengerView: View {
     var body: some View {
         VStack(spacing: 10) {
             List(viewModel.state.messages) { message in
-                Text(message.content)
+                MessageBubble(model: message)
             }
 
             Spacer()

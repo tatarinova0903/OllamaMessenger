@@ -44,6 +44,15 @@ struct MessengerViewState {
 
         enum Owner {
             case user, ai
+
+            var string: String {
+                switch self {
+                case .user:
+                    "You"
+                case .ai:
+                    "Baby Yoda"
+                }
+            }
         }
 
         let id = UUID()
