@@ -42,9 +42,4 @@ struct MessengerView: View {
         }
     }
 
-    @ViewBuilder
-    private func error(model: String) -> some View {
-        Text(model)
-    }
-
 }
