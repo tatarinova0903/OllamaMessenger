@@ -5,7 +5,7 @@ import Ollama
 final class MessengerViewModel: ObservableObject {
 
     @Published
-    var state = MessengerViewState(messages: [])
+    var state = MessengerViewState.empty
 
     private let ollamaService: OllamaService
 
@@ -37,7 +37,7 @@ final class MessengerViewModel: ObservableObject {
 
 }
 
-struct MessengerViewState {
+enum MessengerViewState {
     typealias AiError = String
 
     struct Message: Identifiable {
@@ -61,10 +61,17 @@ struct MessengerViewState {
         private(set) var error: AiError?
     }
 
-    private(set) var messages: [Message]
+    case chat([Message])
+    case empty
 
     mutating func addMessage(msg: Message) {
-        messages.append(msg)
+        switch self {
+        case .chat(var messages):
+            messages.append(msg)
+            self = .chat(messages)
+        case .empty:
+            self = .chat([msg])
+        }
     }
 
     mutating func setErrorToLastMessage() {

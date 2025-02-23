@@ -13,11 +13,8 @@ struct MessengerView: View {
 
     var body: some View {
         VStack(spacing: 0.0) {
-            if viewModel.state.messages.isEmpty {
-                empty()
-            } else {
-                chat(messages: viewModel.state.messages)
-            }
+            main()
+                .background(LinearGradient.main)
 
             InputView(input: userMessage, didEnter: viewModel.getAiAnswer(userMessage:))
                 .padding(.horizontal, 6.0)
@@ -27,22 +24,14 @@ struct MessengerView: View {
     }
 
     @ViewBuilder
-    private func empty() -> some View {
-        VStack(spacing: 8.0) {
-            Spacer()
+    private func main() -> some View {
+        switch viewModel.state {
+        case .empty:
+            EmptyView()
 
-            Image(.yoda)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxHeight: 200)
-
-            Text("Wanna chat with Baby Yoda?")
-                .font(.title)
-                .frame(maxWidth: .infinity)
-
-            Spacer()
+        case .chat(let messages):
+            chat(messages: messages)
         }
-        .background(LinearGradient.main)
     }
 
     @ViewBuilder
@@ -52,7 +41,6 @@ struct MessengerView: View {
                 .listRowSeparator(.hidden)
         }
         .scrollContentBackground(.hidden)
-        .background(LinearGradient.main)
     }
 
     @ViewBuilder
